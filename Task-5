@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini E-Commerce Site</title>
+  <style>
+    /* CSS Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: grey;
+    }
+
+    header {
+      background-color: black;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 250px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    .product h3 {
+      margin: 10px 0;
+      font-size: 1.1rem;
+    }
+
+    .product p {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .product button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product button:hover {
+      background-color: #218838;
+    }
+
+    .cart {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .cart h2 {
+      margin-bottom: 10px;
+    }
+
+    .cart-items {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 15px;
+    }
+
+    .cart-items li {
+      margin-bottom: 8px;
+    }
+
+    .total {
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>My E-Commerce Store 🛍️</h1>
+</header>
+
+<section class="container" id="product-list">
+  <!-- Products will be loaded here dynamically -->
+</section>
+
+<section class="cart" id="cart">
+  <h2>Your Cart</h2>
+  <ul class="cart-items" id="cart-items"></ul>
+  <p class="total">Total: ₹<span id="total-price">0</span></p>
+</section>
+
+<script>
+  // JavaScript Code
+
+  const products = [
+    { id: 1, name: "T-Shirt", price: 599, image: "https://d2fy0k1bcbbnwr.cloudfront.net/Designs_Inners_and_Outers/Tshirts/Men/tshirt_hs_men_pat_d48_o.jpg" },
+    { id: 2, name: "Laptop", price: 60000, image: "https://image.made-in-china.com/202f0j00gOPiJtwsiAqy/2022-New-Hot-Sale-Notebook-Laptop-Computer-F123-Global-Version-Windows10-12-3-Inch-Processor-N4125-Laptop-Notebook.jpg" },
+    { id: 3, name: "bluetooth", price: 1299, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUa90FqFwDXmceYGrt5e6fxFa0sukgsukc-A&s" },
+    { id: 4, name: "Watch", price: 1499, image: "https://www.gonoise.com/cdn/shop/files/1_c95e5561-4f66-413d-b143-42d31821e554.webp?v=1721392308" }
+  ];
+
+  const productList = document.getElementById("product-list");
+  const cartItems = document.getElementById("cart-items");
+  const totalPrice = document.getElementById("total-price");
+
+  let cart = [];
+
+  function renderProducts() {
+    products.forEach(product => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>Price: ₹${product.price}</p>
+        <button onclick="addToCart(${product.id})">Add to Cart</button>
+      `;
+      productList.appendChild(div);
+    });
+  }
+
+  function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    cart.push(product);
+    updateCart();
+  }
+
+  function updateCart() {
+    cartItems.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = `${item.name} - ₹${item.price}`;
+      cartItems.appendChild(li);
+      total += item.price;
+    });
+    totalPrice.textContent = total;
+  }
+
+  // Initialize
+  renderProducts();
+</script>
+
+</body>
+</html>
